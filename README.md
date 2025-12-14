@@ -47,16 +47,13 @@ automation_assignment/
 │   ├── loginData.csv
 │   ├── loginData.xlsx
 │   └── loginData.json
+│
 ├── .classpath                  # Eclipse classpath configuration
 ├── .project                    # Eclipse project configuration
 ├── .gitignore                  # Git ignore rules
 ├── pom.xml                     # Maven dependencies & build config
 ├── testng.xml                  # TestNG suite configuration
-               
 
-
-
----
 
 ## ⚡ Getting Started
 
