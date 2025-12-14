@@ -18,7 +18,7 @@ public class ExcelReaderUtility {
 
 	public static Iterator<User> readExcelFile(String fileName) {
 
-		File xlsxfilee = new File(System.getProperty("user.dir") + "//testData//" + fileName);// loginData.xlsx
+		File xlsxfilee = new File(System.getProperty("user.dir") + File.separator + "testData" + File.separator + fileName);// loginData.xlsx
 
 		XSSFWorkbook xssfWorkbook = null;
 		XSSFSheet xssfSheet;
