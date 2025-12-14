@@ -3,15 +3,11 @@ package com.ui.listeners;
 import java.util.Arrays;
 
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.ui.tests.TestBase;
 import com.utility.BrowserUtility;
 import com.utility.ExtentReporterUtility;
@@ -19,65 +15,78 @@ import com.utility.LoggerUtility;
 
 public class TestListener implements ITestListener {
 
-	Logger logger = LoggerUtility.getLogger(this.getClass());
+    private static final Logger logger =
+            LoggerUtility.getLogger(TestListener.class);
 
-	ExtentSparkReporter extentSparkReporter;
-	ExtentReports extentReports;
-	ExtentTest extentTest;
-	Object testClass;
-	BrowserUtility browserUtility;
-	String ScreenshotPath;
+    @Override
+    public void onStart(ITestContext context) {
+        logger.info("Test Suite Started");
+        ExtentReporterUtility.setupSparkReporter("TestReport");
+    }
 
-	public void onTestStart(ITestResult result) {
-		logger.info(result.getMethod().getMethodName());
-		logger.info(result.getMethod().getDescription());
-		logger.info(Arrays.toString(result.getMethod().getGroups()));
-		ExtentReporterUtility.createExtentTest(result.getMethod().getMethodName());
-	}
+    @Override
+    public void onTestStart(ITestResult result) {
+        logger.info(result.getMethod().getMethodName());
+        logger.info(result.getMethod().getDescription());
+        logger.info(Arrays.toString(result.getMethod().getGroups()));
 
-	public void onTestSuccess(ITestResult result) {
-		logger.info(result.getMethod().getMethodName() + " : " + "PASSED");
-		ExtentReporterUtility.getTest().log(Status.PASS, result.getMethod().getMethodName() + " " + "PASSED");
-		testClass= result.getInstance();
-		browserUtility=((TestBase)testClass).getInstance();
-		logger.info("Capturing the screenshots for failed testcases");
-		ScreenshotPath=browserUtility.takeScreenshot(result.getMethod().getMethodName());
-		logger.info("Attaching the  screenshots to the report file");
-		ExtentReporterUtility.getTest().addScreenCaptureFromPath(ScreenshotPath);
-	}
+        ExtentReporterUtility.createExtentTest(
+                result.getMethod().getMethodName());
+    }
 
-	public void onTestFailure(ITestResult result) {
-		logger.error(result.getMethod().getMethodName() + " : " + "FAILED");
-		logger.error(result.getThrowable().getMessage());
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        logger.info(result.getMethod().getMethodName() + " : PASSED");
 
-		ExtentReporterUtility.getTest().log(Status.FAIL, result.getMethod().getMethodName() + " " + "FAILED");
-		ExtentReporterUtility.getTest().log(Status.FAIL, result.getThrowable().getMessage());
-		logger.error(result.getThrowable().getMessage());
-		
-		testClass= result.getInstance();
-		browserUtility=((TestBase)testClass).getInstance();
-		
-		logger.info("Capturing the screenshots for failed testcases");
-		ScreenshotPath=browserUtility.takeScreenshot(result.getMethod().getMethodName());
-		logger.info("Attaching the  screenshots to the report file");
-		ExtentReporterUtility.getTest().addScreenCaptureFromPath(ScreenshotPath);
-	}
+        ExtentReporterUtility.getTest()
+                .log(Status.PASS, "Test Passed");
+    }
 
-	public void onTestSkipped(ITestResult result) {
-		logger.warn(result.getMethod().getMethodName() + " : " + "SKIPPED");
+    @Override
+    public void onTestFailure(ITestResult result) {
+        logger.error(result.getMethod().getMethodName() + " : FAILED", 
+                     result.getThrowable());
 
-		ExtentReporterUtility.getTest().log(Status.SKIP, result.getMethod().getMethodName() + " " + "SKIPPED");
-	}
+        ExtentReporterUtility.getTest()
+                .log(Status.FAIL, result.getThrowable());
 
-	public void onStart(ITestContext context) {
-		ExtentReporterUtility.setupSparkReporter("TestReport");
-		logger.info("Test Suite Started");
+        captureScreenshot(result);
+    }
 
-	}
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        logger.warn(result.getMethod().getMethodName() + " : SKIPPED");
 
-	public void onFinish(ITestContext context) {
-		logger.info("Test Suite Completed");
-		ExtentReporterUtility.flushReport();
-	}
+        ExtentReporterUtility.getTest()
+                .log(Status.SKIP, "Test Skipped");
+    }
 
+    @Override
+    public void onFinish(ITestContext context) {
+        logger.info("Test Suite Completed");
+        ExtentReporterUtility.flushReport();
+    }
+
+    // Utility method (safe)
+    private void captureScreenshot(ITestResult result) {
+        try {
+            Object testInstance = result.getInstance();
+
+            if (testInstance instanceof TestBase) {
+                BrowserUtility browserUtility =
+                        ((TestBase) testInstance).getInstance();
+
+                if (browserUtility != null) {
+                    String screenshotPath =
+                            browserUtility.takeScreenshot(
+                                    result.getMethod().getMethodName());
+
+                    ExtentReporterUtility.getTest()
+                            .addScreenCaptureFromPath(screenshotPath);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Failed to capture screenshot", e);
+        }
+    }
 }
