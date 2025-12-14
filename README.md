@@ -21,30 +21,39 @@ Built for **cross-browser compatibility**, **headless execution**, and **paralle
 ---
 
 ## 📂 Project Structure
-automation_assignment/ 
-│ 
-├── src/ 
-│ ├── test/ 
-│ │ ├── java/ 
-│ │ │ ├── com.constants/ # Global constants 
-│ │ │ ├── com.ui.dataproviders/ # Data providers for TestNG 
-│ │ │ ├── com.ui.listeners/ # TestNG listeners (ExtentReports, retry logic) 
-│ │ │ ├── com.ui.pages/ # Page Object Model classes 
-│ │ │ ├── com.ui.pojo/ # POJO classes for structured test data 
-│ │ │ ├── com.ui.tests/ # Test classes 
-│ │ │ └── com.utility/ # Utility functions (Excel, JSON, logging, screenshots) 
-│ │ └── resources/ # Test-specific resources 
-│ ├── config/ # Configuration files (browser setup, credentials) 
-├── logs/ # Log4j output logs 
-├── screenshot/ # Screenshots captured during test execution 
-├── testData/ # Excel, CSV, JSON files for data-driven testing 
-├── test-output/ # TestNG default output folder 
-├── target/ # Maven build artifacts 
-│ ├── pom.xml # Maven configuration file 
-├── testng.xml # TestNG suite configuration 
-├── report.html # ExtentReports output 
-├── TestReport.html # Custom or secondary report 
-├── Read.md # Project documentation
+automation_assignment/
+│
+├── .settings/                  # IDE-specific configuration files
+│
+├── config/                     # Environment & configuration files
+│   └── config.json             # Browser, environment, credentials
+│
+├── src/
+│   └── test/
+│       ├── java/
+│       │   └── com/
+│       │       ├── constants/      # Global constants & enums
+│       │       ├── dataproviders/  # TestNG DataProviders
+│       │       ├── listeners/      # TestNG listeners (Extent, Retry)
+│       │       ├── pages/          # Page Object Model (POM) classes
+│       │       ├── pojo/           # POJO classes for test data mapping
+│       │       ├── tests/          # Test classes
+│       │       └── utility/        # Utilities (Excel, JSON, Logger, Screenshots)
+│       │
+│       └── resources/
+│           └── log4j2.xml          # Log4j2 configuration
+│
+├── testData/                   # Data-driven test files
+│   ├── loginData.csv
+│   ├── loginData.xlsx
+│   └── loginData.json
+├── .classpath                  # Eclipse classpath configuration
+├── .project                    # Eclipse project configuration
+├── .gitignore                  # Git ignore rules
+├── pom.xml                     # Maven dependencies & build config
+├── testng.xml                  # TestNG suite configuration
+               
+
 
 
 ---
