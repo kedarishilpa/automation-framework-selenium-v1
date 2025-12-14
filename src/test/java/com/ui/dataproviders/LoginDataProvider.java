@@ -18,22 +18,33 @@ import com.utility.ExcelReaderUtility;
 public class LoginDataProvider {
 
 	@DataProvider(name = "LoginTestDataProvider")
-	public Iterator<Object[]> LoginDataProvider() throws FileNotFoundException {
+	public Iterator<Object[]> loginDataProvider() throws FileNotFoundException {
 		Gson json = new Gson();
-		File TestDataFile = new File(System.getProperty("user.dir") + "\\testData\\logindata.json");
 
-		FileReader fileReader = new FileReader(TestDataFile);
+		String path = System.getProperty("user.dir") + File.separator + "testData" + File.separator + "logindata.json";
 
-		TestData testData = json.fromJson(fileReader, TestData.class);
+		File testDataFile = new File(path);
 
-		List<Object[]> dataToReturn = new ArrayList<Object[]>();
-		for (User user : testData.getData()) {
-
-			dataToReturn.add(new Object[] { user });
-
+		if (!testDataFile.exists()) {
+			throw new RuntimeException("Test data file not found: " + path);
 		}
+		try (FileReader fileReader = new FileReader(testDataFile);){
+			
 
-		return dataToReturn.iterator();
+			TestData testData = json.fromJson(fileReader, TestData.class);
+
+			List<Object[]> dataToReturn = new ArrayList<Object[]>();
+			for (User user : testData.getData()) {
+
+				dataToReturn.add(new Object[] { user });
+
+			}
+
+			return dataToReturn.iterator();
+
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to read login test data", e);
+		}
 	}
 
 	@DataProvider(name = "LoginTestCSVDataProvider")
@@ -42,14 +53,12 @@ public class LoginDataProvider {
 		return CSVReaderUtility.readCSVFile("loginData.csv");
 
 	}
-	
+
 	@DataProvider(name = "LoginTestExcelDataProvider")
 	public Iterator<User> loginExcelDataProvider() {
 
 		return ExcelReaderUtility.readExcelFile("loginData.xlsx");
 
 	}
-	
-	
 
 }

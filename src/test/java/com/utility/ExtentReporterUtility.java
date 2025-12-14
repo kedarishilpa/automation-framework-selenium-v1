@@ -21,13 +21,9 @@ public class ExtentReporterUtility {
             return; // Prevent re-initialization
         }
 
-        String timestamp =
-                new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss")
-                        .format(new Date());
+        String timestamp =new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 
-        String reportDir = System.getProperty("user.dir")
-                + File.separator + "test-output"
-                + File.separator + "ExtentReports";
+        String reportDir = System.getProperty("user.dir")+ File.separator + "test-output"+ File.separator + "ExtentReports";
 
         File dir = new File(reportDir);
         if (!dir.exists()) {
