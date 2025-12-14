@@ -21,7 +21,7 @@ public class TestListener implements ITestListener {
     @Override
     public void onStart(ITestContext context) {
         logger.info("Test Suite Started");
-        ExtentReporterUtility.setupSparkReporter("TestReport");
+        ExtentReporterUtility.setupSparkReporter("report.html");
     }
 
     @Override

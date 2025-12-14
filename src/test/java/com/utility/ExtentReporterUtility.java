@@ -21,19 +21,17 @@ public class ExtentReporterUtility {
             return; // Prevent re-initialization
         }
 
-        String timestamp =new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+      //  String timestamp =new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 
-        String reportDir = System.getProperty("user.dir")+ File.separator + "test-output"+ File.separator + "ExtentReports";
+       // String reportDir = System.getProperty("user.dir")+ File.separator + "test-output"+ File.separator + "ExtentReports";
 
-        File dir = new File(reportDir);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
+        //File dir = new File(reportDir);
+		/*
+		 * if (!dir.exists()) { dir.mkdirs(); }
+		 */
 
         ExtentSparkReporter sparkReporter =
-                new ExtentSparkReporter(
-                        reportDir + File.separator
-                                + reportName + "_" + timestamp + ".html");
+                new ExtentSparkReporter(System.getProperty("user.dir") + File.separator + reportName );//+ "_" + timestamp + ".html"
 
         extentReports = new ExtentReports();
         extentReports.attachReporter(sparkReporter);
