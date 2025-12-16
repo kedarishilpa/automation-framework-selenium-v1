@@ -49,7 +49,9 @@ jobs:
             path: report.html
 
     - name: Test Execution Status
+      if: always()
       run: echo "Test Execution completed"
+      
     - name: Copy Report to gitHub-Pages Folder
       if: always()
 
