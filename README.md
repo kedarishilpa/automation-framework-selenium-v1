@@ -21,13 +21,11 @@ Built for **cross-browser compatibility**, **headless execution**, and **paralle
 ---
 
 ## 📂 Project Structure
-automation_assignment/
-│
+<pre>
+automation_project/
 ├── .settings/                  # IDE-specific configuration files
-│
 ├── config/                     # Environment & configuration files
 │   └── config.json             # Browser, environment, credentials
-│
 ├── src/
 │   └── test/
 │       ├── java/
@@ -39,54 +37,18 @@ automation_assignment/
 │       │       ├── pojo/           # POJO classes for test data mapping
 │       │       ├── tests/          # Test classes
 │       │       └── utility/        # Utilities (Excel, JSON, Logger, Screenshots)
-│       │
 │       └── resources/
 │           └── log4j2.xml          # Log4j2 configuration
-│
 ├── testData/                   # Data-driven test files
 │   ├── loginData.csv
 │   ├── loginData.xlsx
 │   └── loginData.json
-│
 ├── .classpath                  # Eclipse classpath configuration
 ├── .project                    # Eclipse project configuration
 ├── .gitignore                  # Git ignore rules
 ├── pom.xml                     # Maven dependencies & build config
-├── testng.xml                  # TestNG suite configuration
-
-## 📂 Project Structure (Mermaid Diagram)
-
-```mermaid
-graph LR;
-    ROOT((📂 Project Root))
-    ROOT --> SETTINGS[📂 .settings/]
-    ROOT --> CONFIG[📂 config/]
-    CONFIG --> CONFIGJSON[📄 config.json]
-    ROOT --> SRC[📂 src/]
-    SRC --> TEST[📂 test/]
-    TEST --> JAVA[📂 java/]
-    JAVA --> CONSTANTS[📂 constants/]
-    JAVA --> DATAPROVIDERS[📂 dataproviders/]
-    JAVA --> LISTENERS[📂 listeners/]
-    JAVA --> PAGES[📂 pages/]
-    JAVA --> POJO[📂 pojo/]
-    JAVA --> TESTS[📂 tests/]
-    JAVA --> UTILITY[📂 utility/]
-    TEST --> RESOURCES[📂 resources/]
-    RESOURCES --> LOG4J[📄 log4j2.xml]
-    ROOT --> TESTDATA[📂 testData/]
-    TESTDATA --> CSV[📄 loginData.csv]
-    TESTDATA --> XLSX[📄 loginData.xlsx]
-    TESTDATA --> JSON[📄 loginData.json]
-    ROOT --> CLASSPATH[📄 .classpath]
-    ROOT --> PROJECT[📄 .project]
-    ROOT --> GITIGNORE[📄 .gitignore]
-    ROOT --> POM[📄 pom.xml]
-    ROOT --> TESTNG[📄 testng.xml]
-
-
-
-
+└── testng.xml                  # TestNG suite configuration
+</pre>
 
 ## ⚡ Getting Started
 
