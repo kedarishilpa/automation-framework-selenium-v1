@@ -58,42 +58,32 @@ automation_assignment/
 
 ```mermaid
 graph LR;
-    ROOT((Project Root)):::root
+    ROOT((Project Root))
+    ROOT --> SETTINGS[.settings/]
+    ROOT --> CONFIG[config/]
+    CONFIG --> CONFIGJSON[config.json]
+    ROOT --> SRC[src/]
+    SRC --> TEST[test/]
+    TEST --> JAVA[java/]
+    JAVA --> CONSTANTS[constants/]
+    JAVA --> DATAPROVIDERS[dataproviders/]
+    JAVA --> LISTENERS[listeners/]
+    JAVA --> PAGES[pages/]
+    JAVA --> POJO[pojo/]
+    JAVA --> TESTS[tests/]
+    JAVA --> UTILITY[utility/]
+    TEST --> RESOURCES[resources/]
+    RESOURCES --> LOG4J[log4j2.xml]
+    ROOT --> TESTDATA[testData/]
+    TESTDATA --> CSV[loginData.csv]
+    TESTDATA --> XLSX[loginData.xlsx]
+    TESTDATA --> JSON[loginData.json]
+    ROOT --> CLASSPATH[.classpath]
+    ROOT --> PROJECT[.project]
+    ROOT --> GITIGNORE[.gitignore]
+    ROOT --> POM[pom.xml]
+    ROOT --> TESTNG[testng.xml]
 
-    ROOT --> SETTINGS[.settings/]:::folder
-    ROOT --> CONFIG[config/]:::folder
-    CONFIG --> CONFIGJSON[config.json]:::file
-
-    ROOT --> SRC[src/]:::highlight
-    SRC --> TEST[test/]:::folder
-    TEST --> JAVA[java/]:::folder
-    JAVA --> CONSTANTS[constants/]:::folder
-    JAVA --> DATAPROVIDERS[dataproviders/]:::folder
-    JAVA --> LISTENERS[listeners/]:::folder
-    JAVA --> PAGES[pages/]:::folder
-    JAVA --> POJO[pojo/]:::folder
-    JAVA --> TESTS[tests/]:::folder
-    JAVA --> UTILITY[utility/]:::folder
-    TEST --> RESOURCES[resources/]:::folder
-    RESOURCES --> LOG4J[log4j2.xml]:::file
-
-    ROOT --> TESTDATA[testData/]:::highlight
-    TESTDATA --> CSV[loginData.csv]:::file
-    TESTDATA --> XLSX[loginData.xlsx]:::file
-    TESTDATA --> JSON[loginData.json]:::file
-
-    ROOT --> CLASSPATH[.classpath]:::file
-    ROOT --> PROJECT[.project]:::file
-    ROOT --> GITIGNORE[.gitignore]:::file
-    ROOT --> POM[pom.xml]:::important
-    ROOT --> TESTNG[testng.xml]:::file
-
-    %% Styles
-    classDef root fill=#f9f,stroke=#333,stroke-width=2px;
-    classDef folder fill=#bbf,stroke=#333,stroke-width=1px;
-    classDef file fill=#fff,stroke=#999,stroke-width=1px;
-    classDef highlight fill=#cfc,stroke=#333,stroke-width=2px;
-    classDef important fill=#fc9,stroke=#333,stroke-width=2px;
 
 ## ⚡ Getting Started
 
