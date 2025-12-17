@@ -21,13 +21,11 @@ Built for **cross-browser compatibility**, **headless execution**, and **paralle
 ---
 
 ## 📂 Project Structure
-automation_assignment/
-│
+<pre>
+automation_project/
 ├── .settings/                  # IDE-specific configuration files
-│
 ├── config/                     # Environment & configuration files
 │   └── config.json             # Browser, environment, credentials
-│
 ├── src/
 │   └── test/
 │       ├── java/
@@ -39,21 +37,18 @@ automation_assignment/
 │       │       ├── pojo/           # POJO classes for test data mapping
 │       │       ├── tests/          # Test classes
 │       │       └── utility/        # Utilities (Excel, JSON, Logger, Screenshots)
-│       │
 │       └── resources/
 │           └── log4j2.xml          # Log4j2 configuration
-│
 ├── testData/                   # Data-driven test files
 │   ├── loginData.csv
 │   ├── loginData.xlsx
 │   └── loginData.json
-│
 ├── .classpath                  # Eclipse classpath configuration
 ├── .project                    # Eclipse project configuration
 ├── .gitignore                  # Git ignore rules
 ├── pom.xml                     # Maven dependencies & build config
-├── testng.xml                  # TestNG suite configuration
-
+└── testng.xml                  # TestNG suite configuration
+</pre>
 
 ## ⚡ Getting Started
 
