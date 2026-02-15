@@ -22,32 +22,62 @@ Built for **cross-browser compatibility**, **headless execution**, and **paralle
 
 ## 📂 Project Structure
 <pre>
-automation_project/
-├── .settings/                  # IDE-specific configuration files
-├── config/                     # Environment & configuration files
-│   └── config.json             # Browser, environment, credentials
+enterprise-selenium-automation-framework/
+├── .settings/                      # IDE configuration (optional)
 ├── src/
 │   └── test/
 │       ├── java/
 │       │   └── com/
-│       │       ├── constants/      # Global constants & enums
-│       │       ├── dataproviders/  # TestNG DataProviders
-│       │       ├── listeners/      # TestNG listeners (Extent, Retry)
-│       │       ├── pages/          # Page Object Model (POM) classes
-│       │       ├── pojo/           # POJO classes for test data mapping
-│       │       ├── tests/          # Test classes
-│       │       └── utility/        # Utilities (Excel, JSON, Logger, Screenshots)
+│       │       ├── constants/          # Enums (Browser, Env)
+│       │       │
+│       │       ├── factory/            # DriverFactory (ThreadLocal)
+│       │       │   └── DriverFactory.java
+│       │       │
+│       │       ├── ui/
+│       │       │   ├── pages/          # Page Object Model classes
+│       │       │   │   ├── HomePage.java
+│       │       │   │   ├── LoginPage.java
+│       │       │   │   └── MyAccountPage.java
+│       │       │   │
+│       │       │   ├── tests/          # Test classes
+│       │       │   │   ├── TestBase.java
+│       │       │   │   └── LoginTest.java
+│       │       │   │
+│       │       │   └── pojo/           # POJOs (User, Config, Environment)
+│       │       │
+│       │       ├── dataproviders/      # TestNG DataProviders
+│       │       │
+│       │       ├── listeners/          # TestNG listeners (Retry, Extent)
+│       │       │
+│       │       └── utility/            # Common utilities
+│       │           ├── BrowserUtility.java
+│       │           ├── JSONUtility.java
+│       │           ├── LocatorFactory.java
+│       │           ├── PropertiesUtil.java
+│       │           ├── EnvironmentManager.java
+│       │           └── LoggerUtility.java
+│       │
 │       └── resources/
-│           └── log4j2.xml          # Log4j2 configuration
-├── testData/                   # Data-driven test files
-│   ├── loginData.csv
-│   ├── loginData.xlsx
-│   └── loginData.json
-├── .classpath                  # Eclipse classpath configuration
-├── .project                    # Eclipse project configuration
-├── .gitignore                  # Git ignore rules
-├── pom.xml                     # Maven dependencies & build config
-└── testng.xml                  # TestNG suite configuration
+│           ├── config/
+│           │   └── config.json             # Centralized environment config
+│           │
+│           ├── locators/
+│           │   ├── homePage.properties
+│           │   ├── loginPage.properties
+│           │   └── myAccountPage.properties
+│           │
+│           ├── testdata/
+│           │   ├── loginData.json
+│           │   ├── loginData.csv
+│           │   └── loginData.xlsx
+│           │
+│           └── log4j2.xml                  # Logging configuration
+│
+├── .gitignore
+├── pom.xml                                 # Maven dependencies & Surefire config
+├── testng.xml                              # TestNG suite
+└── README.md                               # Framework documentation (recommended)
+
 </pre>
 
 ## ⚡ Getting Started
@@ -64,7 +94,7 @@ automation_project/
 
 2. Navigate to the project directory:
 cd automation_assignment
-Run tests with Maven: mvn clean test
+Run tests with Maven: mvn clean test -Dbrowser=chrome -DisLamdaTest=false -DisHeadless=false -Denv=QA
 3. Execute on LambdaTest (update credentials ).
 
 **Cloud Execution (LambdaTest)**
