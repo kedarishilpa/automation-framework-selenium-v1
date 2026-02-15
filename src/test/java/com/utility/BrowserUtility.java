@@ -7,137 +7,68 @@ import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-
-import com.constants.Browser;
+import org.openqa.selenium.*;
 
 public abstract class BrowserUtility {
 
-	private static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
-	Logger logger = LoggerUtility.getLogger(this.getClass());
+    protected WebDriver driver;
+    Logger logger = LoggerUtility.getLogger(this.getClass());
 
-	public WebDriver getDriver() {
-		return driver.get();
-	}
+    // Constructor Injection (IMPORTANT)
+    public BrowserUtility(WebDriver driver) {
+        this.driver = driver;
+        logger.info("BrowserUtility initialized with driver instance");
+    }
 
-	/**
-	 * @param driver
-	 */
-	public BrowserUtility(WebDriver driver) {
-		super();
-		this.driver.set(driver); // inilize instance variable driver
-	}
+    public WebDriver getDriver() {
+        return driver;
+    }
 
-	public BrowserUtility(String browserName) {
-		logger.info("Launching browser for " + browserName);
-		if (browserName.equalsIgnoreCase("chrome")) {
+    public void goToWebsite(String url) {
+    	maximizeWindow();
+    	logger.info("Navigating to URL: {}", url);
+        driver.get(url);
+    }
 
-			driver.set(new ChromeDriver());
-		}
-		if (browserName.equalsIgnoreCase("edge")) {
-			driver.set(new EdgeDriver());
-		} else {
-			logger.error("invalid browser name " + browserName);
-			System.out.println("invalid browser name ");
-		}
-	}
+    public void maximizeWindow() {
+        logger.info("Maximizing browser window");
+        driver.manage().window().maximize();
+    }
 
-	public BrowserUtility(Browser browserName, boolean isHeadless) {
-	    if (browserName == Browser.CHROME) {
-	        ChromeOptions chromeOptions = new ChromeOptions();
-	        if (isHeadless) {
-	            chromeOptions.addArguments("--headless=new"); // modern headless mode
-	            chromeOptions.addArguments("--window-size=1920,1080");
-	            chromeOptions.addArguments("--disable-gpu");
-	            chromeOptions.addArguments("--remote-allow-origins=*");
-	        }
-	        driver.set(new ChromeDriver(chromeOptions));
-	    } else if (browserName == Browser.EDGE) {
-	        EdgeOptions edgeOptions = new EdgeOptions();
-	        if (isHeadless) {
-	            edgeOptions.addArguments("--headless=new");
-	            edgeOptions.addArguments("--window-size=1920,1080");
-	            edgeOptions.addArguments("--disable-gpu");
-	        }
-	        driver.set(new EdgeDriver(edgeOptions));
-	    } else if (browserName == Browser.FIREFOX) {
-	        FirefoxOptions options = new FirefoxOptions();
-	        if (isHeadless) {
-	            options.addArguments("--headless");
-	            options.addArguments("--width=1920");
-	            options.addArguments("--height=1080");
-	        }
-	        driver.set(new FirefoxDriver(options));
-	    } else {
-	        System.out.println("Invalid browser name");
-	    }
-	}
-	public void goToWebsite(String url) {
-		logger.info("Visiting the website" + url);
-		driver.get().get(url);
-	}
+    public void clickOn(By locator) {
+        logger.info("Clicking on element: {}", locator);
+        driver.findElement(locator).click();
+    }
 
-	public void maximizeWindow() {
-		logger.info("Maximizimg the Broswer Window");
-		driver.get().manage().window().maximize();// maximize the window
-	}
+    public void setText(By locator, String text) {
+        logger.info("Setting text '{}' in element: {}", text, locator);
+        driver.findElement(locator).sendKeys(text);
+    }
 
-	public void clickOn(By locator) {
-		logger.info("Finding Element with the loactor" + locator);
-		WebElement element = driver.get().findElement(locator);
+    public String getText(By locator) {
+        logger.info("Getting text from element: {}", locator);
+        String text = driver.findElement(locator).getText();
+        logger.info("Text retrieved: {}", text);
+        return text;
+    }
 
-		logger.info("element found and now performimg click" + locator);
-		element.click();
-	}
+    public String takeScreenshot(String name) {
+        logger.info("Capturing screenshot: {}", name);
 
-	public void setText(By locator, String textToSet) {
-		logger.info("Finding Element with the loactor" + locator);
-		WebElement element = driver.get().findElement(locator);
-		logger.info("element found and enter text" + textToSet);
-		element.sendKeys(textToSet);
-	}
+        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        String path = "./screenshots/" + name + "_" + timeStamp() + ".png";
 
-	public String getText(By locator) {
-		logger.info("Finding Element with the loactor" + locator);
-		String text = driver.get().findElement(locator).getText();
-		logger.info("element found and returning the visible " + text);
-		return text;
+        try {
+            FileUtils.copyFile(src, new File(path));
+            logger.info("Screenshot saved at: {}", path);
+        } catch (IOException e) {
+            logger.error("Failed to save screenshot", e);
+        }
 
-	}
+        return path;
+    }
 
-	public String takeScreenshot(String name) {
-		TakesScreenshot screenshot = (TakesScreenshot) driver.get();
-		File screenshotData = screenshot.getScreenshotAs(OutputType.FILE);
-		String path =  "./screenshots/" + name + "_" + getTimeStamp() + ".png";
-		File screenshotFile = new File(path);
-		try {
-			FileUtils.copyFile(screenshotData, screenshotFile);
-		} catch (IOException e) {
-		}
-		return path;
-	}
-
-	public String getTimeStamp() {
-		Date date = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH-mm-ss");
-		return dateFormat.format(date);
-
-	}
-
-	public void quit() {
-
-		driver.get().quit();
-
-	}
+    private String timeStamp() {
+        return new SimpleDateFormat("HH-mm-ss").format(new Date());
+    }
 }
-

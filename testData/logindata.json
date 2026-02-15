@@ -2,11 +2,13 @@
 	"data": [  
 		{
 			"emailAddress": "shilpa@mail.com",
-			"password": "password"
+			"password": "password",
+			"expectedUserName": "Shilpa Kedari"
 		},
 		{
 			"emailAddress": "mibot40899@nyfhk.com",
-			"password": "password"
+			"password": "password",
+            "expectedUserName": "Test User"
 		}
 	]
 }

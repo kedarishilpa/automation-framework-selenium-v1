@@ -40,6 +40,9 @@ public class TestListener implements ITestListener {
 
         ExtentReporterUtility.getTest()
                 .log(Status.PASS, "Test Passed");
+
+
+        captureScreenshot(result);
     }
 
     @Override

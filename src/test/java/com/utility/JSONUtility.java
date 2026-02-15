@@ -1,38 +1,38 @@
 package com.utility;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-import com.constants.Env;
 import com.google.gson.Gson;
 import com.ui.pojo.Config;
 import com.ui.pojo.Environment;
 
 public class JSONUtility {
 
-	public static Environment readJson(Env env) {
+    private static Config config;
 
-		Gson gson = new Gson();
+    static {
+        try (InputStream is = JSONUtility.class
+                .getClassLoader()
+                .getResourceAsStream("config/config.json")) {
 
-		File jsonFile = new File(System.getProperty("user.dir")+ File.separator + "config"+ File.separator +"config.json");
+            config = new Gson().fromJson(
+                    new InputStreamReader(is),
+                    Config.class);
 
-		System.out.println("Loading config: " + jsonFile.getAbsolutePath() + " exists=" + jsonFile.exists());
-		FileReader fileReader = null;
-		try {
-			fileReader = new FileReader(jsonFile);
-		} catch (FileNotFoundException e) {
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to load config.json", e);
+        }
+    }
 
-			e.printStackTrace();
-		}
+    public static Environment getEnvironment() {
 
-		Config config = gson.fromJson(fileReader, Config.class);
+        String env = EnvironmentManager.getEnv();
 
-		System.out.println(config.getEnvironments().get("QA").getURL());
-		Environment environment = config.getEnvironments().get("QA");
+        if (!config.getEnvironments().containsKey(env)) {
+            throw new RuntimeException("Invalid environment: " + env);
+        }
 
-		return environment;
-
-	}
-
+        return config.getEnvironments().get(env);
+    }
 }

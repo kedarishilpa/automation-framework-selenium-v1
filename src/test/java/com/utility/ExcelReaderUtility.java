@@ -37,7 +37,8 @@ public class ExcelReaderUtility {
 				Row row = rowIterator.next();
 				Cell emailAddressCell = row.getCell(0);
 				Cell passwordCell = row.getCell(1);
-				User user = new User(emailAddressCell.toString(), passwordCell.toString());
+				Cell expectedUserName=row.getCell(2);
+				User user = new User(emailAddressCell.toString(), passwordCell.toString(),expectedUserName.toString());
 				userList.add(user);
 
 			}

@@ -31,7 +31,7 @@ public class CSVReaderUtility {
 			userlist = new ArrayList<User>();
 
 			while ((line = csvReader.readNext()) != null) {
-				userData = new User(line[0], line[1]);
+				userData = new User(line[0], line[1], line[2]);
 				userlist.add(userData);
 
 			}

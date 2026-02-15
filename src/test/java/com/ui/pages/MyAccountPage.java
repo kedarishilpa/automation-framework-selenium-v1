@@ -4,16 +4,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.utility.BrowserUtility;
+import com.utility.LocatorFactory;
 
 public final class MyAccountPage extends BrowserUtility{
-	private static final By USER_NAME_LOCATOR=By.xpath("//a[@title='View my customer account']");
+	
+	 private static final String PAGE = "myAccountPage";
+	    private By userNameText = LocatorFactory.getBy(PAGE, "userNameText");
+
 	public MyAccountPage(WebDriver driver) {
 		super(driver);
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getUserName() {
-		String userName=getText(USER_NAME_LOCATOR);
+		String userName=getText(userNameText);
 		
 		return userName;
 		

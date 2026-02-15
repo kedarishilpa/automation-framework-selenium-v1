@@ -11,6 +11,7 @@ import com.beust.jcommander.Parameter;
 import com.constants.Browser;
 import com.ui.pages.HomePage;
 import com.utility.BrowserUtility;
+import com.factory.DriverFactory;
 import com.utility.LamdaTestUtility;
 import com.utility.LoggerUtility;
 
@@ -31,7 +32,11 @@ public class TestBase {
 		} else {
 			// Running the test on local machine
 			logger.info("Load homepage of the application");
-			homePage = new HomePage(Browser.valueOf(browser.toUpperCase()), isHeadless);
+			
+
+			logger.info("Launching browser: " + Browser.valueOf(browser.toUpperCase()));
+			DriverFactory.initDriver(Browser.valueOf(browser.toUpperCase()), isHeadless);
+			homePage = new HomePage(DriverFactory.getDriver());
 		}
 
 	}
@@ -48,7 +53,7 @@ public class TestBase {
 			LamdaTestUtility.quitSession();
 		}
 
-		homePage.quit(); // local
+		DriverFactory.quitDriver(); // local
 
 	}
 }

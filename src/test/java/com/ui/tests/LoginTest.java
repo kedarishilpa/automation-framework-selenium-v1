@@ -1,20 +1,9 @@
 package com.ui.tests;
 
 import static org.testng.Assert.*;
-
-import org.apache.logging.log4j.Logger;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import com.constants.Browser;
-import com.ui.pages.HomePage;
 import com.ui.pojo.User;
-import com.utility.BrowserUtility;
-import com.utility.LoggerUtility;
 
 @Listeners(com.ui.listeners.TestListener.class)
 public class LoginTest extends TestBase {
@@ -23,8 +12,10 @@ public class LoginTest extends TestBase {
 			"sanity" }, dataProviderClass = com.ui.dataproviders.LoginDataProvider.class, dataProvider = "LoginTestDataProvider", retryAnalyzer = com.ui.listeners.MyRetryAnalyzer.class)
 	public void loginTest(User user) {
 
-		assertEquals(homePage.goToLoginPage().doLoginWith(user.getEmailAddress(), user.getPassword()).getUserName(),
-				"Shilpa Kedari");
+		String actualUserName = homePage.goToLoginPage().doLoginWith(user).getUserName();
+
+		assertEquals(actualUserName, user.getExpectedUserName(),
+				"Username mismatch for user: " + user.getEmailAddress());
 
 	}
 
@@ -32,17 +23,20 @@ public class LoginTest extends TestBase {
 			"sanity" }, dataProviderClass = com.ui.dataproviders.LoginDataProvider.class, dataProvider = "LoginTestCSVDataProvider")
 	public void loginCSVTest(User user) {
 
-		assertEquals(homePage.goToLoginPage().doLoginWith(user.getEmailAddress(), user.getPassword()).getUserName(),
-				"Shilpa Kedari");
+		String actualUserName = homePage.goToLoginPage().doLoginWith(user).getUserName();
+
+		assertEquals(actualUserName, user.getExpectedUserName(),
+				"Username mismatch for user: " + user.getEmailAddress());
 
 	}
 
 	@Test(enabled = false, description = "Verify with valid user is able to login to appln", groups = { "e2e",
 			"sanity" }, dataProviderClass = com.ui.dataproviders.LoginDataProvider.class, dataProvider = "LoginTestExcelDataProvider", retryAnalyzer = com.ui.listeners.MyRetryAnalyzer.class)
 	public void loginExcelTest(User user) {
+		String actualUserName = homePage.goToLoginPage().doLoginWith(user).getUserName();
 
-		assertEquals(homePage.goToLoginPage().doLoginWith(user.getEmailAddress(), user.getPassword()).getUserName(),
-				"Shilpa Kedari");
+		assertEquals(actualUserName, user.getExpectedUserName(),
+				"Username mismatch for user: " + user.getEmailAddress());
 
 	}
 
