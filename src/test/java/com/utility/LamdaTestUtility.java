@@ -17,12 +17,15 @@ public class LamdaTestUtility {
 
 	public static WebDriver initializeLamdaTestSession(String browser, String testName) {
 
+		String username = System.getenv("LT_USERNAME"); // This pulls values securely from GitHub Secrets
+		String accessKey = System.getenv("LT_ACCESS_KEY");
 		DesiredCapabilities capabilities = new DesiredCapabilities();
+		
 		capabilities.setCapability("browserName", "Chrome");
 		capabilities.setCapability("browserVersion", "latest");
 		Map<String, Object> ltOptions = new HashMap<>();
-		ltOptions.put("user", "shilpakedari44"); // use your Lambda Test UserName
-		ltOptions.put("accessKey", "LT_JXEzBE9zLkyMG4PDSCKp4Mm4pEi57FenY8AGFYFuDnNdlwu"); //use yourLambda Test Token
+		ltOptions.put("user", username); // use your Lambda Test UserName
+		ltOptions.put("accessKey", accessKey); //use yourLambda Test Token
 		ltOptions.put("build", "Selenium 4");
 		ltOptions.put("name", testName);
 		ltOptions.put("platformName", "Windows 10");
